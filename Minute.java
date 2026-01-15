@@ -1,8 +1,13 @@
 public class Minute implements Clock {
     private int value;
+    private Hour hour;
+
+    public Minute(Hour hour) {
+        this.hour = hour;
+    }
 
     public int getValue() {
-        return value % 60;
+        return value;
     }
 
     @Override
@@ -16,9 +21,11 @@ public class Minute implements Clock {
 
     @Override
     public void move() {
-        System.out.println("Minute hand moved");
-
-        this.value++;
+        value++;
+        if (value == 60) {
+            reset();
+            hour.move();
+        }
 
     }
 }

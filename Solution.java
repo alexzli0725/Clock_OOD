@@ -1,73 +1,14 @@
 public class Solution {
 
     public static void main(String[] arg) {
-        // Hour h = new Hour();
-
-        Minute m = new Minute();
+        Hour h = new Hour();
+        Minute m = new Minute(h);
         Second s = new Second(m);
 
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
-        s.move();
+        for (int i = 0; i < 86400; i++) {
+            s.move();
+        }
 
-        System.out.println(m.getValue() + ":" + s.getValue());
+        System.out.println(h.getValue() + ":" + m.getValue() + ":" + s.getValue());
     }
 }

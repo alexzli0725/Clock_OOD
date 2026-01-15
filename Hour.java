@@ -12,6 +12,9 @@ public class Hour implements Clock {
 
     @Override
     public void move() {
-        System.out.println("Hour hand moved");
+        value++;
+        if (value == 24) {
+            reset();
+        }
     }
 }
