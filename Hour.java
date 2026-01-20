@@ -5,6 +5,10 @@ public class Hour implements Clock {
         return value;
     }
 
+    public void setValue(int value) {
+        this.value = value;
+    }
+
     @Override
     public void reset() {
         this.value = 0;
