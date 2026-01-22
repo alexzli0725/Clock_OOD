@@ -7,14 +7,47 @@ import java.util.Scanner;
 
 public class Solution {
 
+    public static boolean sleep_continue(int h, int m, String did, Scanner timeInput, boolean isSleeping) {
+        if (h >= 9 && m == 0) {
+
+            System.out.println("It's time to wake up.");
+
+            did = timeInput.nextLine();
+            if (did.equals("wake up") || did.equals("wake")) {
+
+                System.out.println("You're waking up.");
+                return false;
+            } else if (did.equals("sleep")) {
+                System.out.println("You continue sleeping.");
+            } else {
+                System.out.println("Invalid command. Try again!");
+                isSleeping = sleep_continue(h, m, did, timeInput, isSleeping);
+
+            }
+        }
+        return isSleeping;
+    }
+
+    public static void repeat(int h, int m, int hNum, int mNum, Scanner timeInput, String did,
+            String itsTime, String does, String yes, String no) {
+        if (h == hNum && m == mNum) {
+
+            System.out.println(itsTime);
+
+            did = timeInput.nextLine();
+            if (did.equals(does)) {
+                System.out.println(yes);
+            } else {
+                System.out.println("Invalid command. Try again!");
+                repeat(h, m, hNum, mNum, timeInput, did, itsTime, does, yes, no);
+            }
+        }
+    }
+
+    @SuppressWarnings("resource")
     public static void main(String[] arg) throws InterruptedException {
         Hour h = new Hour();
         Minute m = new Minute(h);
-        Second s = new Second(m);
-
-        LocalTime myObj = LocalTime.now();
-        // String nowString = myObj.toString();
-        // // System.out.println(nowString);
 
         int i;
         int j = 0;
@@ -48,30 +81,6 @@ public class Solution {
 
         }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        LocalTime colonTime = LocalTime.of(17, 35);
-        // System.out.println(formatter.format(colonTime));
-
-        // LocalDate parsedDate = LocalDate.parse(nowString);
-
-        // int i;
-        // int j = 0;
-        // String[] parts = new String[2];
-        // int times = 0;
-
-        // for (i = 0; i < nowString.length(); i++) {
-
-        // if (nowString.charAt(i) == ':') {
-        // // parts.add(nowString.substring(j, i));
-        // parts[times] = nowString.substring(j, i);
-        // j = i + 1;
-        // times++;
-        // }
-        // if (nowString.charAt(i) == '.') {
-        // parts[times] = nowString.substring(j, i);
-        // break;
-        // }
-        // }
         String hString = parts[0];
         String mString = parts[1];
         // // String sString = parts[2];
@@ -79,56 +88,108 @@ public class Solution {
         h.setValue(Integer.parseInt(hString));
         m.setValue(Integer.parseInt(mString));
         // // s.setValue(Integer.parseInt(sString));
+        boolean isSleeping = true;
 
-        for (int k = 0; k < 1400; k++) {
-            while (true) {
-                m.move();
-                Thread.sleep(1000);
-                // wait 1 real second
-                Scanner timeInput = new Scanner(System.in);
-                String did;
-                System.out.println(h.getValue() + ":" + m.getValue() + "\r");
-                if (h.getValue() == 9 && m.getValue() == 0) {
+        while (true) {
+            m.move();
+            Thread.sleep(1000);
+            // wait 1 real second
+            Scanner timeInput = new Scanner(System.in);
+            String did = null;
+            System.out.println(h.getValue() + ":" + m.getValue() + "\r");
 
-                    System.out.println("It's time to wake up.");
-
-                    did = timeInput.nextLine();
-                    if (did.equals("wake up") || did.equals("wake")) {
-                        System.out.println("You're waking up");
-                    } else {
-                        System.out.println("You continue sleeping");
-                    }
-                } else if (h.getValue() == 12 && m.getValue() == 0) {
-
-                    System.out.println("You have left over homework to do.");
-
-                    did = timeInput.nextLine();
-                    if (did.equals("do homework")) {
-                        System.out.println("You're doing your homework.");
-                    } else {
-                        System.out.println("You're postponing your homework.");
-                    }
-                } else if (h.getValue() == 13 && m.getValue() == 0) {
-                    System.out.println("Your dog needs to be walked.");
-                    did = timeInput.nextLine();
-                    if (did.equals("walk my dog")) {
-                        System.out.println("You're walking your dog");
-                    } else {
-                        System.out.println("You're not walking your dog");
-                    }
-
-                } else if (h.getValue() == 3 && m.getValue() == 0) {
-                    System.out.println("It's time to hit the driving range");
-                    did = timeInput.nextLine();
-                    if (did.equals("play golf")) {
-                        System.out.println("You're practicing golf");
-                    } else {
-                        System.out.println("You're skipping practice");
-                    }
+            if (isSleeping == true) {
+                isSleeping = sleep_continue(h.getValue(), m.getValue(), did, timeInput, isSleeping);
+                if (h.getValue() == 23 && m.getValue() == 59) {
+                    System.out.println("You did nothing this whole day.");
+                    return;
+                }
+            } else {
+                repeat(h.getValue(),
+                        m.getValue(),
+                        9,
+                        15,
+                        timeInput,
+                        did,
+                        "You dog needs his breakfast.",
+                        "feed dog",
+                        "You're feeding your dog.",
+                        "You're starving your dog.");
+                repeat(h.getValue(),
+                        m.getValue(),
+                        10,
+                        0,
+                        timeInput,
+                        did,
+                        "It's time to read some news articles.",
+                        "read news",
+                        "You're reading news.",
+                        "You're not reading news.");
+                repeat(h.getValue(),
+                        m.getValue(),
+                        11,
+                        0,
+                        timeInput,
+                        did,
+                        "You have left over homework to do.",
+                        "do homework",
+                        "You're doing your homework.",
+                        "You're postponing your homework.");
+                repeat(h.getValue(),
+                        m.getValue(),
+                        13,
+                        0,
+                        timeInput,
+                        did,
+                        "Your dog needs to be walked.",
+                        "walk dog",
+                        "You're walking your dog.",
+                        "You're letting your dog stay still.");
+                repeat(h.getValue(),
+                        m.getValue(),
+                        15,
+                        0,
+                        timeInput,
+                        did,
+                        "It's time to hit the driving range.",
+                        "play golf",
+                        "You're practicing golf.",
+                        "You're skipping practice.");
+                repeat(h.getValue(),
+                        m.getValue(),
+                        17,
+                        0,
+                        timeInput,
+                        did,
+                        "Your car needs to increase its mileage.",
+                        "drive car",
+                        "You're driving your car",
+                        "Your car stays parked.");
+                repeat(h.getValue(),
+                        m.getValue(),
+                        21,
+                        0,
+                        timeInput,
+                        did,
+                        "It's time to apply for jobs.",
+                        "apply for jobs",
+                        "You're submitting resume.",
+                        "You're not applying today.");
+                repeat(h.getValue(),
+                        m.getValue(),
+                        22,
+                        0,
+                        timeInput,
+                        did,
+                        "It's time to practice leetcode questions.",
+                        "practice leetcode",
+                        "You're practicing leetcode.",
+                        "You're skipping leetcode.");
+                if (h.getValue() == 23 && m.getValue() == 59) {
+                    System.out.println("You've done () today.");
+                    return;
                 }
             }
-
         }
-
     }
 }
